@@ -1,10 +1,16 @@
-var count = 10;
+var count = 100;
 var score = document.querySelector("#starting-Score");
 var startButton = document.querySelector("#start-quiz");
 var questionContainer = document.querySelector("#question-container");
-var questionAsked = document.querySelector("#question-asked");
+var questionEl = document.querySelector("#question-asked");
+var answerBtnSection = document.querySelector("#answer-buttons");
+var scoreDiv = document.querySelector("#score-div");
+var nameInput = document.querySelector("#name-input");
+var submitBtn = document.querySelector("#submit");
+var scoreChart = document.querySelector("#score-chart");
+var feedback = document.querySelector("#feedback");
 // array of questions
-var questions = [
+var questionsArray = [
   {
     question: "Which of the following is correct about features of JavaScript?",
     answers: [
@@ -73,9 +79,11 @@ var questions = [
     ],
   },
 ];
+var timerInterval;
+
 // Timer which starts counting down from 100 once Start is clicked
 function setTime() {
-  var timerInterval = setInterval(function () {
+  timerInterval = setInterval(function () {
     if (count > 0) {
       count--;
       score.innerHTML = count;
@@ -89,22 +97,93 @@ function setTime() {
 
 // function which removes start button and loads questions once game is started
 function startGame() {
+  setTime();
   startButton.parentNode.removeChild(startButton);
   questionContainer.classList.remove("hide");
   loadQuestion();
-
-  setTime();
 }
 // event listener which will run start game function once start button is clicked
 startButton.addEventListener("click", startGame);
 
 // function which loads question
+var round = 0;
 function loadQuestion() {
-  for (var i = 0; i < questions.length; i++) {
-    questionAsked.textContent = questions[0].question;
-  }
-
-  if (answers.correct === true) {
-    alert("Correct!");
-  }
+  questionEl.textContent = questionsArray[round].question;
+  var answers = questionsArray[round].answers;
+  answerBtnSection.innerHTML = "";
+  answers.forEach(function (answers) {
+    var button = document.createElement("button");
+    button.classList.add("btn");
+    button.classList.add("btn-primary");
+    button.classList.add("mb-2");
+    button.classList.add("container-fluid");
+    answerBtnSection.appendChild(button);
+    button.textContent = answers.text;
+    button.addEventListener("click", function () {
+      if (round === questionsArray.length - 1) {
+        if (answers.correct === true) {
+          feedback.textContent = "correct";
+          feedback.classList.remove("hide");
+          round++;
+          endQuiz();
+        } else {
+          round++;
+          count = count - 5;
+          feedback.textContent = "Incorrect";
+          feedback.classList.remove("hide");
+          endQuiz();
+        }
+        return;
+      } else {
+        if (answers.correct === true) {
+          feedback.textContent = "correct";
+          feedback.classList.remove("hide");
+          round++;
+        } else {
+          round++;
+          count = count - 5;
+          feedback.textContent = "Incorrect";
+          feedback.classList.remove("hide");
+        }
+      }
+      loadQuestion(round);
+    });
+  });
 }
+
+function loadNextQuestion() {
+  questionEl.textContent = questionsArray[round].question;
+  var answers = questionsArray[round].answers;
+  answers.forEach(function (answers) {
+    var button = document.createElement("button");
+    button.classList.add("btn");
+    button.classList.add("btn-primary");
+    button.classList.add("mb-2");
+    button.textContent = answers.text;
+  });
+}
+
+function endQuiz() {
+  questionContainer.innerHTML = "";
+  answerBtnSection.innerHTML = "";
+  scoreDiv.innerHTML = "";
+  clearInterval(timerInterval);
+  var finalScore = document.createElement("div");
+  finalScore.classList.add("text-center");
+  finalScore.textContent = "All done! Your Final score is " + count;
+  questionContainer.appendChild(finalScore);
+  submitBtn.classList.remove("hide");
+  nameInput.classList.remove("hide");
+}
+
+function submitName() {
+  var finalScoreInfo = document.createElement("div");
+  finalScoreInfo.innerHTML = "";
+  var name = nameInput.value;
+  localStorage.setItem("Name", name);
+  localStorage.setItem("Score", count);
+  console.log(name);
+  console.log(count);
+}
+
+submitBtn.addEventListener("click", submitName);

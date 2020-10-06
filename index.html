@@ -15,7 +15,7 @@
 
   <body>
     <div class="container text-center">
-      <div class="row">
+      <div class="row" id="score-div">
         <h1 class="col">Score : <span id="starting-Score">100</span></h1>
       </div>
       <div class="row">
@@ -31,16 +31,22 @@
         <div class="col"><p id="question-asked">Question</p></div>
       </div>
       <div class="row">
-        <div class="col">
-          <button class="btn btn-primary mb-2">Answer</button>
-        </div>
+        <div class="col-3"></div>
+        <div class="col-6" id="answer-buttons"></div>
       </div>
-      <div class="row">
-        <div class="col">
-          <button class="btn btn-primary mb-2">Answer</button>
-        </div>
+      <p id="feedback" class="hide"></p>
+    </div>
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-6">
+        <input id="name-input" class="hide" type="text" />
+        <button id="submit" class="hide">Submit</button>
       </div>
     </div>
+    <div class="row">
+      <div class="col hide" id="score-chart"></div>
+    </div>
+
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
