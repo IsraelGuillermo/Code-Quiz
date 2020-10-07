@@ -9,6 +9,8 @@ var nameInput = document.querySelector("#name-input");
 var submitBtn = document.querySelector("#submit");
 var scoreChart = document.querySelector("#score-chart");
 var feedback = document.querySelector("#feedback");
+var scoreListEl = document.querySelector("#scoreList");
+
 // array of questions
 var questionsArray = [
   {
@@ -176,14 +178,29 @@ function endQuiz() {
   nameInput.classList.remove("hide");
 }
 
+function renderHighScore() {
+  var scoresArray = [];
+  var storedHighScores = JSON.parse(localStorage.getItem("highScores"));
+
+  scoresArray.push(storedHighScores);
+  var li = document.createElement("li");
+  li.textContent = storedHighScores;
+  scoreListEl.appendChild(li);
+  console.log(storedHighScores);
+}
+
 function submitName() {
-  var finalScoreInfo = document.createElement("div");
-  finalScoreInfo.innerHTML = "";
-  var name = nameInput.value;
-  localStorage.setItem("Name", name);
-  localStorage.setItem("Score", count);
-  console.log(name);
-  console.log(count);
+  var name = nameInput.value;s
+  // var Count = JSON.stringify(count);
+  var highScores = {
+    Name: name,
+    Score: count,
+  };
+  localStorage.setItem("highScores", JSON.stringify(highScores));
+
+  scoreListEl.classList.remove("hide");
+
+  renderHighScore();
 }
 
 submitBtn.addEventListener("click", submitName);
