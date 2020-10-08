@@ -1,4 +1,5 @@
 var count = 100;
+var round = 0;
 var score = document.querySelector("#starting-Score");
 var startButton = document.querySelector("#start-quiz");
 var questionContainer = document.querySelector("#question-container");
@@ -10,6 +11,7 @@ var submitBtn = document.querySelector("#submit");
 var scoreChart = document.querySelector("#score-chart");
 var feedback = document.querySelector("#feedback");
 var scoreListEl = document.querySelector("#scoreList");
+var resetEl = document.querySelector("#reset");
 
 // array of questions
 var questionsArray = [
@@ -93,6 +95,8 @@ function setTime() {
 
     if (count === 0) {
       clearInterval(timerInterval);
+      alert("You ran out of time!");
+      location.reload();
     }
   }, 1000);
 }
@@ -108,7 +112,7 @@ function startGame() {
 startButton.addEventListener("click", startGame);
 
 // function which loads question
-var round = 0;
+
 function loadQuestion() {
   questionEl.textContent = questionsArray[round].question;
   var answers = questionsArray[round].answers;
@@ -153,18 +157,6 @@ function loadQuestion() {
   });
 }
 
-function loadNextQuestion() {
-  questionEl.textContent = questionsArray[round].question;
-  var answers = questionsArray[round].answers;
-  answers.forEach(function (answers) {
-    var button = document.createElement("button");
-    button.classList.add("btn");
-    button.classList.add("btn-primary");
-    button.classList.add("mb-2");
-    button.textContent = answers.text;
-  });
-}
-
 function endQuiz() {
   questionContainer.innerHTML = "";
   answerBtnSection.innerHTML = "";
@@ -177,6 +169,7 @@ function endQuiz() {
   submitBtn.classList.remove("hide");
   nameInput.classList.remove("hide");
 }
+var highScores = [];
 
 function renderHighScore() {
   var name = nameInput.value;
@@ -184,23 +177,31 @@ function renderHighScore() {
     player: name,
     score: count,
   };
-  localStorage.setItem("storedScores", JSON.stringify(newScoreinfo));
-  var highScores = [];
 
   highScores.push(newScoreinfo);
 
   JSON.parse(localStorage.getItem("storedScores"));
   for (var i = 0; i < highScores.length; i++) {
     var li = document.createElement("li");
+    li.classList.add("rounded");
+    li.classList.add("text-center");
     li.textContent = newScoreinfo.player + " " + newScoreinfo.score;
     scoreListEl.appendChild(li);
   }
+  localStorage.setItem("storedScores", JSON.stringify(newScoreinfo));
 }
 
 function submitName() {
   scoreListEl.classList.remove("hide");
+  questionContainer.classList.add("hide");
+  submitBtn.classList.add("hide");
+  nameInput.classList.add("hide");
 
   renderHighScore();
 }
+function reset() {
+  location.reload();
+}
 
 submitBtn.addEventListener("click", submitName);
+resetEl.addEventListener("click", reset);

@@ -3,4 +3,20 @@
 }
 
 li {
+  list-style-type: none;
+  background-color: #e8ffff;
+  color: #00587a;
+}
+
+#scoreList {
+  background-color: #a3d2ca;
+}
+
+* {
+  font-family: "Roboto Condensed", sans-serif;
+  color: white;
+}
+
+.container {
+  background-color: #686d76;
 }

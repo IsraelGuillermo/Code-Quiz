@@ -11,10 +11,16 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital@1&display=swap"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
-    <div class="container text-center">
+    <button id="reset" class="btn btn-warning">Reset</button>
+
+    <div class="container text-center mt-4 rounded">
       <div class="row" id="score-div">
         <h1 class="col">Score : <span id="starting-Score">100</span></h1>
       </div>
@@ -26,30 +32,33 @@
         </div>
       </div>
     </div>
-    <div id="question-container" class="container text-center hide">
+    <div id="question-container" class="container text-center hide rounded">
       <div class="row">
-        <div class="col"><p id="question-asked">Question</p></div>
+        <div class="col"><h5 id="question-asked">Question</h5></div>
       </div>
       <div class="row">
         <div class="col-3"></div>
         <div class="col-6" id="answer-buttons"></div>
       </div>
-      <p id="feedback" class="hide"></p>
+
+      <p id="feedback" class="hide mb-0"></p>
     </div>
-    <div class="row">
-      <div class="col-3"></div>
-      <div class="col-6">
-        <input id="name-input" class="hide" type="text" />
-        <button id="submit" class="hide btn btn-primary">Submit</button>
+    <div class="container rounded py-4">
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+          <input id="name-input" class="hide" type="text" />
+          <button id="submit" class="hide btn btn-primary">Submit</button>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col hide" id="score-chart"></div>
-    </div>
-    <div class="row">
-      <div class="col-3"></div>
-      <div id="scoreList" class="hide col-6">
-        <h1 class="text-center">High Scores</h1>
+      <div class="row">
+        <div class="col hide" id="score-chart"></div>
+      </div>
+      <div class="row">
+        <div class="col-3"></div>
+        <div id="scoreList" class="hide col-6 rounded mt-4 py-4">
+          <h1 class="text-center">High Scores</h1>
+        </div>
       </div>
     </div>
 
