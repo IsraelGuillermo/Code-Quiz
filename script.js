@@ -179,25 +179,25 @@ function endQuiz() {
 }
 
 function renderHighScore() {
-  var scoresArray = [];
-  var storedHighScores = JSON.parse(localStorage.getItem("highScores"));
+  var name = nameInput.value;
+  var newScoreinfo = {
+    player: name,
+    score: count,
+  };
+  localStorage.setItem("storedScores", JSON.stringify(newScoreinfo));
+  var highScores = [];
 
-  scoresArray.push(storedHighScores);
-  var li = document.createElement("li");
-  li.textContent = storedHighScores;
-  scoreListEl.appendChild(li);
-  console.log(storedHighScores);
+  highScores.push(newScoreinfo);
+
+  JSON.parse(localStorage.getItem("storedScores"));
+  for (var i = 0; i < highScores.length; i++) {
+    var li = document.createElement("li");
+    li.textContent = newScoreinfo.player + " " + newScoreinfo.score;
+    scoreListEl.appendChild(li);
+  }
 }
 
 function submitName() {
-  var name = nameInput.value;s
-  // var Count = JSON.stringify(count);
-  var highScores = {
-    Name: name,
-    Score: count,
-  };
-  localStorage.setItem("highScores", JSON.stringify(highScores));
-
   scoreListEl.classList.remove("hide");
 
   renderHighScore();
