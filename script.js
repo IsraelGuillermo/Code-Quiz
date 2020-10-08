@@ -12,6 +12,8 @@ var scoreChart = document.querySelector("#score-chart");
 var feedback = document.querySelector("#feedback");
 var scoreListEl = document.querySelector("#scoreList");
 var resetEl = document.querySelector("#reset");
+var viewScoreEl = document.querySelector("#view-scores");
+var scoreStartEl = document.querySelector("#score-start");
 
 // array of questions
 var questionsArray = [
@@ -169,26 +171,35 @@ function endQuiz() {
   submitBtn.classList.remove("hide");
   nameInput.classList.remove("hide");
 }
-var highScores = [];
 
-function renderHighScore() {
+var scores = [];
+function storeScores() {
+  event.preventDefault();
   var name = nameInput.value;
-  var newScoreinfo = {
-    player: name,
-    score: count,
+  var score = {
+    Name: name,
+    Score: count,
   };
-
-  highScores.push(newScoreinfo);
-
-  JSON.parse(localStorage.getItem("storedScores"));
-  for (var i = 0; i < highScores.length; i++) {
+  scores.push(score);
+  localStorage.setItem("scores", JSON.stringify(scores));
+}
+function renderScores() {
+  for (var i = 0; i < scores.length; i++) {
     var li = document.createElement("li");
     li.classList.add("rounded");
-    li.classList.add("text-center");
-    li.textContent = newScoreinfo.player + " " + newScoreinfo.score;
+    li.textContent = scores[i].Name + " " + scores[i].Score;
     scoreListEl.appendChild(li);
   }
-  localStorage.setItem("storedScores", JSON.stringify(newScoreinfo));
+  localStorage.setItem("scores", JSON.stringify(scores));
+}
+
+function init() {
+  var storedScores = JSON.parse(localStorage.getItem("scores"));
+  if (storedScores !== null) {
+    scores = storedScores;
+  }
+  storeScores();
+  renderScores();
 }
 
 function submitName() {
@@ -196,12 +207,30 @@ function submitName() {
   questionContainer.classList.add("hide");
   submitBtn.classList.add("hide");
   nameInput.classList.add("hide");
-
-  renderHighScore();
 }
 function reset() {
   location.reload();
 }
 
-submitBtn.addEventListener("click", submitName);
+viewScoreEl.addEventListener("click", function () {
+  startButton.parentNode.removeChild(startButton);
+  scoreListEl.classList.remove("hide");
+  questionContainer.classList.add("hide");
+  scoreStartEl.classList.add("hide");
+  var storedScores = JSON.parse(localStorage.getItem("scores"));
+  if (storedScores !== null) {
+    scores = storedScores;
+  }
+  for (var i = 0; i < scores.length; i++) {
+    var li = document.createElement("li");
+    li.classList.add("rounded");
+    li.textContent = scores[i].Name + " " + scores[i].Score;
+    scoreListEl.appendChild(li);
+  }
+});
+
+submitBtn.addEventListener("click", function () {
+  submitName();
+  init();
+});
 resetEl.addEventListener("click", reset);
