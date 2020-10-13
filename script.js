@@ -183,15 +183,15 @@ function storeScores() {
   scores.push(score);
   localStorage.setItem("scores", JSON.stringify(scores));
 }
-function renderScores() {
-  for (var i = 0; i < scores.length; i++) {
-    var li = document.createElement("li");
-    li.classList.add("rounded");
-    li.textContent = scores[i].Name + " " + scores[i].Score;
-    scoreListEl.appendChild(li);
-  }
-  localStorage.setItem("scores", JSON.stringify(scores));
-}
+// function renderScores() {
+//   for (var i = 0; i < scores.length; i++) {
+//     var li = document.createElement("li");
+//     li.classList.add("rounded");
+//     li.textContent = scores[i].Name + " " + scores[i].Score;
+//     scoreListEl.appendChild(li);
+//   }
+//   localStorage.setItem("scores", JSON.stringify(scores));
+// }
 
 function init() {
   var storedScores = JSON.parse(localStorage.getItem("scores"));
@@ -199,7 +199,7 @@ function init() {
     scores = storedScores;
   }
   storeScores();
-  renderScores();
+  // renderScores();
 }
 
 function submitName() {
